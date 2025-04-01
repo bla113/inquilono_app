@@ -3,7 +3,7 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 
 Future getProfileApp(String? token) async {
-  const String baseUrl = 'http://seguridad.danilos27.sg-host.com/api/profile/user';
+  const String baseUrl = 'https://secure-app-condomino-cr.laravel.cloud/api/profile/user';
 
   var headers = {
     'Accept': 'application/json',

@@ -3,7 +3,7 @@ import 'dart:convert';
 
 getAlertByUser(String token) async {
   const String baseUrl =
-      'http://10.0.2.2:8000/api/alerta/user/all/'; //localhost
+      'https://secure-app-condomino-cr.laravel.cloud/api/alerta/user/all/'; //localhost
   //const String baseUrl = 'http://127.0.0.1:8000/api/alerta'; //localhost
   //const String api = 'login';
 

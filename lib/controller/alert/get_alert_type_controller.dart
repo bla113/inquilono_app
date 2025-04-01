@@ -2,8 +2,8 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 
 getAlertApiApp(String token) async {
-  const String baseUrl = 'http://10.0.2.2:8000/api/tipos/alerta'; //localhost
-  //const String baseUrl = 'http://127.0.0.1:8000/api/alerta'; //localhost
+  //const String baseUrl = 'http://10.0.2.2:8000/api/tipos/alerta'; //localhost
+  const String baseUrl = 'https://secure-app-condomino-cr.laravel.cloud/api/tipos/alerta'; //localhost
   //const String api = 'login';
 
   var headers = {
@@ -18,7 +18,7 @@ getAlertApiApp(String token) async {
   // var body = json.encode({'titulo': titulo, 'descripcion': descripcion});
 
   var response = await http.Client().post(url, headers: headers);
-
+  print(response.body);
   if (response.statusCode == 200) {
     var mesaje = jsonDecode(response.body);
 

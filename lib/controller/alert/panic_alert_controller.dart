@@ -3,7 +3,7 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 
 createPanicAlert(String token) async {
-  const String baseUrl = 'http://10.0.2.2:8000/api/alerta/panico'; //localhost
+  const String baseUrl = 'https://secure-app-condomino-cr.laravel.cloud/api/alerta/panico'; //localhost
   //const String baseUrl = 'http://127.0.0.1:8000/api/alerta'; //localhost
   //const String api = 'login';
 

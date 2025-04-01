@@ -5,7 +5,7 @@ import 'dart:convert';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 Future login(String email, String password) async {
-  const String baseUrl = 'http://seguridad.danilos27.sg-host.com/api/login'; //localhost
+  const String baseUrl = 'https://secure-app-condomino-cr.laravel.cloud/api/login'; //localhost
   //const String baseUrl = 'http://127.0.0.1:8000/api/alerta'; //localhost
 
   var headers = {

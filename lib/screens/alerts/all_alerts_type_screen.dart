@@ -2,6 +2,7 @@
 
 import 'package:codominio_app/constants/icons.svg.dart';
 import 'package:codominio_app/controller/alert/get_alert_type_controller.dart';
+import 'package:codominio_app/controller/alert/serarch_alert_controller.dart';
 import 'package:codominio_app/controller/auth/login_controller.dart';
 import 'package:codominio_app/screens/alerts/create_alert.dart';
 import 'package:flutter/material.dart';
@@ -17,12 +18,15 @@ class AlertScreeAPI extends StatefulWidget {
 
 class _AlertScreeAPIState extends State<AlertScreeAPI> {
   List tipoAlerta = [];
+  bool isLoading = false;
   getAlertApi() async {
+    isLoading = true;
     var accessToken = await getSharedPreferences();
 
     var response = await getAlertApiApp(accessToken);
 
     if (response != null) {
+        isLoading = false;
       setState(() {
         tipoAlerta.addAll(response);
       });
@@ -35,7 +39,7 @@ class _AlertScreeAPIState extends State<AlertScreeAPI> {
 
     getAlertApi();
 
-    debugPrint(tipoAlerta.toString());
+   
   }
 
   @override
@@ -65,7 +69,51 @@ class _AlertScreeAPIState extends State<AlertScreeAPI> {
           builder: (context) {
             return Column(
               children: [
-                const SearchField(),
+              
+                Form(
+                  child: TextFormField(
+                    onEditingComplete: () {},
+                    onChanged: (value) async {
+                       isLoading=true;
+                      var accessToken = await getSharedPreferences();
+                      var response = await searchAlertApiApp(
+                        accessToken,
+                        value,
+                      );
+                      if (response != null) {
+                        isLoading=false;
+
+                        setState(() {
+                          tipoAlerta=[];
+                          tipoAlerta.addAll(response);
+                        });
+                      }
+                    },
+                    decoration: InputDecoration(
+                      filled: true,
+                      hintStyle: const TextStyle(color: Color(0xFF757575)),
+                      fillColor: const Color.fromARGB(255, 255, 254, 254),
+                      contentPadding: const EdgeInsets.symmetric(
+                        horizontal: 16,
+                        vertical: 8,
+                      ),
+                      border: const OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(12)),
+                        borderSide: BorderSide.none,
+                      ),
+                      focusedBorder: const OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(12)),
+                        borderSide: BorderSide.none,
+                      ),
+                      enabledBorder: const OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(12)),
+                        borderSide: BorderSide.none,
+                      ),
+                      hintText: "Search product",
+                      prefixIcon: const Icon(Icons.search),
+                    ),
+                  ),
+                ),
                 const SizedBox(height: 20),
 
                 ListView.builder(
@@ -90,6 +138,8 @@ class _AlertScreeAPIState extends State<AlertScreeAPI> {
                     );
                   },
                 ),
+                 isLoading? CircularProgressIndicator.adaptive():  
+                 const SizedBox(height: 2),
               ],
             );
           },
@@ -185,7 +235,14 @@ class SearchField extends StatelessWidget {
   Widget build(BuildContext context) {
     return Form(
       child: TextFormField(
-        onChanged: (value) {},
+        onEditingComplete: () {},
+        onChanged: (value) async {
+          var accessToken = await getSharedPreferences();
+          var response = await searchAlertApiApp(accessToken, value);
+          if (response != null) {
+           
+          }
+        },
         decoration: InputDecoration(
           filled: true,
           hintStyle: const TextStyle(color: Color(0xFF757575)),
@@ -244,8 +301,9 @@ class ProfileMenu extends StatelessWidget {
         child: Row(
           children: [
             FaIcon(
-              FontAwesomeIcons.bell,
-              color: Color.fromRGBO(18, 83, 196, 1),
+              FontAwesomeIcons.warning,
+              size: 40,
+              color: Color.fromRGBO(241, 12, 12, 1),
             ),
 
             const SizedBox(width: 20),
