@@ -302,7 +302,7 @@ class ProfileMenu extends StatelessWidget {
           children: [
             FaIcon(
               FontAwesomeIcons.warning,
-              size: 40,
+              size: 100,
               color: Color.fromRGBO(241, 12, 12, 1),
             ),
 

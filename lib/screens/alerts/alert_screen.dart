@@ -1,7 +1,10 @@
 import 'package:codominio_app/components/widgets/alert_card.dart';
 import 'package:codominio_app/constants/icons.svg.dart';
+import 'package:codominio_app/controller/auth/login_controller.dart';
+import 'package:codominio_app/controller/auth/logout_controller.dart';
 import 'package:codominio_app/screens/alerts/all_alerts_type_screen.dart';
 import 'package:codominio_app/screens/alerts/create_alert.dart';
+import 'package:codominio_app/screens/welcome_page.dart';
 import 'package:flutter/material.dart';
 
 import 'package:flutter_svg/flutter_svg.dart';
@@ -34,7 +37,48 @@ class AlertScreen extends StatelessWidget {
           maxLines: 2,
         ),
         actions: [
-          IconButton(icon: const Icon(Icons.logout_outlined), onPressed: () {}),
+        IconButton(
+            icon: const Icon(Icons.logout),
+            onPressed: () {
+              showDialog(
+                context: context,
+                builder:
+                    (context) => AlertDialog(
+                      icon: Icon(Icons.logout_outlined),
+                      actions: [
+                        TextButton(
+                          onPressed: () async {
+                            var accessToken = await getSharedPreferences();
+                            var response = await logout(accessToken);
+
+                            if (response == 200) {
+                              // ignore: use_build_context_synchronously
+                              Navigator.of(context).push(
+                                MaterialPageRoute(
+                                  builder: (context) => WelcomeScreen(),
+                                ),
+                              );
+                            } else {
+                              debugPrint('Logout fil from profile');
+                            }
+                          },
+
+                          child: Text('Cerrar'),
+                        ),
+                        TextButton(
+                          onPressed: () {
+                            Navigator.pop(context);
+                          },
+                          child: Text('Cancelar'),
+                        ),
+                      ],
+                      title: Text('Cerrar sesión'),
+                      contentPadding: EdgeInsets.all(20.0),
+                      content: Text('Esta apunto de Cerrar Sesión'),
+                    ),
+              );
+            },
+          ),
         ],
       ),
       body: SafeArea(
